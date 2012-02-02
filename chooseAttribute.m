@@ -22,17 +22,17 @@ end
 
 function [remainder] = Remainder(attribute, targets)
     % attribute is the attribute column
-    positivepositive = sum(attribute & targets);
-    positivenegative = sum(attribute & ~targets);
-    negativepositive = sum(~attribute & targets);
-    negativenegative = sum(~attribute & ~targets);
+    posPos = sum(attribute & targets);
+    posNeg = sum(attribute & ~targets);
+    negPos = sum(~attribute & targets);
+    negNeg = sum(~attribute & ~targets);
     
-    positivecount = positivepositive + positivenegative;
-    negativecount = negativepositive + negativenegative;
+    positivecount = posPos + posNeg;
+    negativecount = negPos + negNeg;
     
-    positive = positivecount / size(targets) * I(positivepositive / positivecount, positivenegative / positivecount);
+    positive = positivecount / size(targets) * I(posPos / positivecount, posNeg / positivecount);
            
-    negative = negativecount / size(targets) * I(negativepositive / negativecount, negativenegative / negativecount);
+    negative = negativecount / size(targets) * I(negPos / negativecount, negNeg / negativecount);
         
     remainder = positive + negative;
 end
