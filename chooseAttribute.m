@@ -2,22 +2,24 @@ function [ best ] = chooseAttribute( attributes, examples, targets )
     % attributes is a set of remaining attributes
     % examples a matrix, rows of examples, columns of set attributes
     % targets rows of examples true or false
-    max_gain = 0;
-    best = 0;
+    max_gain = -1;
+    best = -1;
     for a = attributes
         attribute = examples(:,a);
         gain = Gain(attribute, targets);
         if gain >= max_gain
            max_gain = gain;
-           best = attribute;
+           best = a;
         end
-    end  
-    
+    end
 end
 
 function [entropy] = I(pos, neg)
-    assert(pos + neg > 0.99 && pos + neg < 1.01);
-    entropy = -pos * log2(pos) - neg * log2(pos);
+    count = pos + neg + eps;
+    p = pos / count;
+    n = neg / count;
+
+    entropy = -p * log2(p+eps) - n * log2(n+eps);
 end
 
 function [remainder] = Remainder(attribute, targets)
@@ -38,7 +40,7 @@ function [remainder] = Remainder(attribute, targets)
 end
 
 function [gain] = Gain(attribute, targets)
-    positive = sum(targets) / size(targets);
+    positive = sum(targets) / length(targets);
     negative = 1.0 - positive;
     gain = I(positive, negative) - Remainder(attribute, targets);
 end
