@@ -1,8 +1,9 @@
 function [] = runner()
 
     [examples, targets] = loaddata('cleandata_students.txt');
-    targets = remap(targets, 1);
-    tree = decisionTreeLearning(examples, (1:45), targets);
-    DrawDecisionTree(tree)
-
+    for i = 1:6
+        new_targets = remap(targets, i);
+        tree = decisionTreeLearning(examples, (1:45), new_targets);
+        DrawDecisionTree(tree)
+    end
 end
