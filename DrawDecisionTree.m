@@ -1,6 +1,6 @@
 function DrawDecisionTree(tree,titletext)
-%DRAWTREE    Draws the GPLAB trees graphically.
-%     DRAWTREE(TREE,TITLE) draws the TREE in a window with TITLE. 
+%   DRAWTREE    Draws the GPLAB trees graphically.
+%   DRAWTREE(TREE,TITLE) draws the TREE in a window with TITLE. 
 %  
 %     Input arguments:
 %        TREE - a GPLAB tree (struct)
@@ -12,7 +12,6 @@ function DrawDecisionTree(tree,titletext)
 %   Modified (2004) by Sara Silva (sara@dei.uc.pt)
 %   - removed object-oriented constructs and some "over-specific" code
 %   This file is part of the GPLAB toolbox.
-
 
 
 % Set tree titles
@@ -41,7 +40,7 @@ axis off
 
 
 
-%% Subfunctions. See comments above for what they do
+% Subfunctions. See comments above for what they do
 
 function [tree, state] = walkTreeDepthFirst(tree, preDive, postDive, initialDepth, state )
 % Calls preDive(tree, depth, state), enters subnodes, calls postDive(tree,

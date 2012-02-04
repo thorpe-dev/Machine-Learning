@@ -1,4 +1,4 @@
-function [ best ] = chooseAttribute( attributes, examples, targets )
+function [ best ] = chooseAttribute(attributes, examples, targets)
     % attributes is a set of remaining attributes
     % examples a matrix, rows of examples, columns of set attributes
     % targets rows of examples true or false
