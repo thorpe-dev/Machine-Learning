@@ -1,11 +1,11 @@
-function [ best ] = chooseAttribute(attributes, examples, targets)
+function [ best ] = chooseAttribute(examples, attributes, targets)
     % attributes is a set of remaining attributes
     % examples a matrix, rows of examples, columns of set attributes
     % targets rows of examples true or false
     max_gain = -1;
     best = -1;
     for a = attributes
-        attribute = examples(:,a);
+        attribute = examples(:, a);
         gain = Gain(attribute, targets);
         if gain >= max_gain
            max_gain = gain;
@@ -28,14 +28,14 @@ function [remainder] = Remainder(attribute, targets)
     posNeg = sum(attribute & ~targets);
     negPos = sum(~attribute & targets);
     negNeg = sum(~attribute & ~targets);
-    
+
     positivecount = posPos + posNeg;
     negativecount = negPos + negNeg;
-    
-    positive = positivecount / size(targets) * I(posPos / positivecount, posNeg / positivecount);
-           
-    negative = negativecount / size(targets) * I(negPos / negativecount, negNeg / negativecount);
-        
+
+    positive = positivecount / length(targets) * I(posPos / positivecount, posNeg / positivecount);
+
+    negative = negativecount / length(targets) * I(negPos / negativecount, negNeg / negativecount);
+
     remainder = positive + negative;
 end
 
