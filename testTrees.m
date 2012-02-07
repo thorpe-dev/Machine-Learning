@@ -4,7 +4,7 @@ function [targets] = testTrees(forest, examples)
 
     for i = 1:size(examples, 1)
         example = examples(i, :);
-        targets = vetcat(targets, getPrediction(forest, eg);
+        targets = vertcat(targets, getPrediction(forest, example));
     end
 
 end
@@ -25,5 +25,14 @@ function[prediction] = getPrediction(forest, example)
       prediction = positives(randi([1,length(positives)]));
     end
 
+
+end
+
+function[classified] = isClassifiedAs(tree, example)
+
+    while size(tree.kids) ~= 0
+        tree = tree.kids{example(tree.op) + 1};
+    end
+    classified = tree.class;
 
 end
