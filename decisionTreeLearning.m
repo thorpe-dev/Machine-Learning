@@ -1,5 +1,7 @@
 function [tree] = decisionTreeLearning(examples, attributes, targets)
 
+    % implements the algorithm from page 22 of the CBC manual
+    
     if same_label(targets)
         tree.op = [];
         tree.kids = cell(0);
@@ -41,7 +43,8 @@ function [tree] = decisionTreeLearning(examples, attributes, targets)
             else
                 newAttr = attributes;
                 newAttr(bestAttr) = 0; 
-                tree.kids{i + 1} = decisionTreeLearning(examples_i, newAttr, targets_i);
+                tree.kids{i + 1} = ...
+                    decisionTreeLearning(examples_i, newAttr, targets_i);
                 tree.class = [];
             end
         end
