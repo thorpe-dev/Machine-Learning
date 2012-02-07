@@ -1,28 +1,13 @@
 function [confusionMatrix] = buildConfusionMatrix(trainExamples, trainTargets, testExamples, testTargets, attributes)
 
-    confusionMatrix = [];
+    confusionMatrix = zeros(6,6);
 
-    for emotion = 1:6
-        newTargets = remap(trainTargets, emotion);
-        tree = decisionTreeLearning(trainExamples, attributes, newTargets);
+    forest = getDecisionTrees(trainExamples, trainTargets, attributes);
 
-        confusionMatrix(:, emotion) = getPredictionVector(tree, testExamples, testTargets);
-
-    end
-
-end
-
-function [vector] = getPredictionVector(tree, testExamples, testTargets)
-
-    vector = zeros(1, 6);
-    for i = 1:size(testExamples, 1)
-        eg = testExamples(i, :);
+    for i = 1:length(testTargets)
         target = testTargets(i);
-        currTree = tree;
-        while size(currTree.kids) ~= 0
-            currTree = currTree.kids{eg(currTree.op) + 1};
-        end
-        vector(target) = vector(target) + currTree.class;
+        example = testExamples(i, :);
+        prediction = getPrediction(forest, example);
+        confusionMatrix(target, prediction) = confusionMatrix(target, prediction) + 1;
     end
-
 end
