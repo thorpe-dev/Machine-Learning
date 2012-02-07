@@ -21,10 +21,12 @@ function[confMat] = buildTotalConfusionMatrix(examples, targets)
     
     recall = recall/10
     precision = precision/10
+    f1 = f1measure(recall, precision)
     var  = cell(3);
     var{1} = confMat;
     var{2} = recall;
     var{3} = precision;
+    var{4} = f1;
     save('stats.mat', 'var');
     
 end
@@ -43,6 +45,16 @@ function[recall, precision] = recall_precision(confMat)
         recall(i) = truePositives / (truePositives + falsePositives + eps);
         precision(i) = truePositives / (truePositives + falseNegatives + eps);
         
+    end
+
+end
+
+function[f1] = f1measure(recall, precision)
+
+    fl = [];
+
+    for i = 1:6
+        f1(i) = 2 * (recall(i) * precision(i))/ (recall(i) + precision(i));
     end
 
 end
