@@ -21,6 +21,8 @@ function[prediction] = getPrediction(forest, example)
 
     if length(positives) == 1
       prediction = positives(1);
+    else if length(positives) == 0
+      prediction = randi([1,6]);
     else
       prediction = positives(randi([1,length(positives)]));
     end

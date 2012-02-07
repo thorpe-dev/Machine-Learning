@@ -6,7 +6,7 @@ function [confusionMatrix] = buildConfusionMatrix(trainExamples, trainTargets, t
         newTargets = remap(trainTargets, emotion);
         tree = decisionTreeLearning(trainExamples, attributes, newTargets);
 
-        confusionMatrix(emotion, :) = getPredictionVector(tree, testExamples, testTargets);
+        confusionMatrix(:, emotion) = getPredictionVector(tree, testExamples, testTargets);
 
     end
 
@@ -14,7 +14,7 @@ end
 
 function [vector] = getPredictionVector(tree, testExamples, testTargets)
 
-    vector = zeros(6, 1);
+    vector = zeros(1, 6);
     for i = 1:size(testExamples, 1)
         eg = testExamples(i, :);
         target = testTargets(i);
