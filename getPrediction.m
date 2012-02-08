@@ -1,4 +1,8 @@
 function[prediction] = getPrediction(forest, example)
+
+    % Given the trees and an example, returns a single emotion for that
+    % example
+
     positives = [];
     for emotion = 1:6
         if isClassifiedAs(forest{emotion}, example)
@@ -15,6 +19,8 @@ function[prediction] = getPrediction(forest, example)
 end
 
 function[classified] = isClassifiedAs(tree, example)
+
+    % returns true or false for a given tree and example (classification)
 
     while size(tree.kids) ~= 0
         tree = tree.kids{example(tree.op) + 1};

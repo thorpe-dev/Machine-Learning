@@ -4,6 +4,9 @@ function[confMat] = buildTotalConfusionMatrix(examples, targets)
     recall = zeros(1,6);
     precision = zeros(1,6);
 
+    % Splits the data into ten folds, and sums the confusion
+    % matrices for each fold
+    
     for i = 1:10
         bottomSplit = (i - 1) * length(examples) * 0.1;
         topSplit = i * length(examples) * 0.1;
@@ -19,6 +22,8 @@ function[confMat] = buildTotalConfusionMatrix(examples, targets)
         confMat = confMat + thisConfMat;
     end
     
+    % Calculates recall, precision, and f1 measure
+    
     recall = recall/10
     precision = precision/10
     f1 = f1measure(recall, precision)
@@ -27,11 +32,17 @@ function[confMat] = buildTotalConfusionMatrix(examples, targets)
     var{2} = recall;
     var{3} = precision;
     var{4} = f1;
+    
+    % Saves these statistics to file
+    
     save('stats.mat', 'var');
     
 end
 
 function[recall, precision] = recall_precision(confMat)
+
+    % Calculates the recall and precision for the confusion matrix
+    % for *one* fold
 
     recall = zeros(1,6);
     precision = zeros(1,6);
@@ -43,13 +54,17 @@ function[recall, precision] = recall_precision(confMat)
         falsePositives = sum(confMat(:, i)) - truePositives;
         
         recall(i) = truePositives / (truePositives + falsePositives + eps);
-        precision(i) = truePositives / (truePositives + falseNegatives + eps);
+        precision(i) = truePositives / (truePositives + falseNegatives ...
+            + eps);
         
     end
 
 end
 
 function[f1] = f1measure(recall, precision)
+
+    % Calculates the f1 measure using the recall and precision for all
+    % folds
 
     fl = [];
 
