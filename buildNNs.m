@@ -7,7 +7,9 @@ function[results] = buildNNs()
 n = 8;
 m = 45;
 results = zeros(m,n);
-for k = 28:36
+
+for k = 10:18
+
     for i = 1:n
         sizes = zeros(1,i) + k;
         [net] = feedforwardnet(sizes, 'traingd');
