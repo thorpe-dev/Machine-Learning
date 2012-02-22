@@ -4,7 +4,7 @@ function[results] = buildNNs()
 [x,y] = ANNdata(x,y);
 
 % create 6-output-NN
-n = 4;
+n = 8;
 m = 45;
 results = zeros(m,n);
 for k = 1:m
@@ -20,7 +20,7 @@ for k = 1:m
         net.trainParam.showCommandLine = 0;
         net.trainParam.goal = 0;
         
-        times = 10;
+        times = 100;
         
         for j = 1:times
         [net] = train(net, x, y);
