@@ -1,4 +1,4 @@
-function[results] = buildNNs()
+function[results] = buildNNs2()
 
 [x,y] = loaddata('cleandata_students.txt');
 [x,y] = ANNdata(x,y);
@@ -7,7 +7,7 @@ function[results] = buildNNs()
 n = 8;
 m = 45;
 results = zeros(m,n);
-for k = 28:36
+for k = 37:45
     for i = 1:n
         sizes = zeros(1,i) + k;
         [net] = feedforwardnet(sizes, 'traingd');
