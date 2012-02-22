@@ -4,15 +4,15 @@ function[] = buildNNs()
 [x,y] = ANNdata(x,y);
 
 % create 6-output-NN
-n = 10;
+n = 100;
 results = (1:n) * 0;
 
 for i = 1:n
-    sizes = zeros(1,i) + 6;
-    [net] = feedforwardnet(sizes);
+    [net] = feedforwardnet([6,6],'traingd');
     [net] = configure(net, x, y);
     
     % would change params here
+    net.trainParam.lr = i/n;
     net.trainParam.epochs = 100;
     net.trainParam.show = NaN;
     net.trainParam.showWindow = 0;
