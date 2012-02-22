@@ -5,7 +5,7 @@ function[] = buildNNs()
 
 % create 6-output-NN
 n = 10;
-results = (1:n) * 0;
+results = zeros(1,n);
 
 for i = 1:n
     sizes = zeros(1,i) + 6;
@@ -19,16 +19,20 @@ for i = 1:n
     net.trainParam.showCommandLine = 0;
     net.trainParam.goal = 0;
     
-    times = 100;
+    times = 10;
     
     for j = 1:times
         [net] = train(net, x, y);
         
         [p] = sim(net, x);
         
-        [z] = sum(round(p));
+        [z] = round(p);
         
-        results(i) = results(i) + size(find(z==1), 2);
+        [u] = z & y;
+        
+        [k] = sum(u);
+        
+        results(i) = results(i) + size(find(k==1), 2);
        
     end
     
