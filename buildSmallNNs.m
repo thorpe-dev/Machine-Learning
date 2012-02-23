@@ -1,13 +1,8 @@
-function[results] = buildSmallNNs(joke)
-
 [x,y] = loaddata('cleandata_students.txt');
 [x,y] = ANNdata(x,y);
 
-times = 50;
-m = 0.2*(joke - 1) + 0.01;
-n = 0.2*joke;
-results = zeros(6,100);
-for lr = m:0.01:n
+results = zeros(6,10);
+for epochs = 1:10
     for i = 1:6
 
         y2 = y(i,:);
@@ -17,24 +12,22 @@ for lr = m:0.01:n
         [net] = feedforwardnet(sizes, 'traingd');
         [net] = configure(net, x, y2);
 
-        net.trainParam.epochs = 100;
+        net.trainParam.epochs = epochs;
         net.trainParam.show = NaN;
         net.trainParam.showWindow = 0;
         net.trainParam.showCommandLine = 0;
         net.trainParam.goal = 0;
-        net.trainParam.lr = lr;
-        for j = 1:times
+        net.trainParam.lr = 0.4;
+            
             [net] = train(net, x, y2);
             [p] = sim(net, x);
             [z] = p > 0.5;
             [u] = z - y2;
 
-            results(i,round(lr*100)) = results(i,round(lr*100)) + 1 - sum(abs(u))/100;
-        end
-        results(i, round(lr*100)) = results(i, round(lr*100))/times;
-        100*(i + (round(lr*100) - 1)*6)/(20*6)
+            results(i,epochs) = results(i,epochs) + 1 - sum(abs(u));
+
+        results(i, epochs) = results(i, epochs);
     end
 end
 
-save(strcat('testLR',num2str(joke)),'results');
-
+save('testepochs','results');
