@@ -29,10 +29,10 @@ for lr = m:0.01:n
             [z] = p > 0.5;
             [u] = z - y2;
 
-            results(i,lr*100) = results(i,lr*100) + 1 - sum(abs(u))/100;
+            results(i,round(lr*100)) = results(i,round(lr*100)) + 1 - sum(abs(u))/100;
         end
-        results(i, lr*100) = results(i, lr*100)/times;
-        100*(i + (lr*100 - 1)*6)/(20*6)
+        results(i, round(lr*100)) = results(i, round(lr*100))/times;
+        100*(i + (round(lr*100) - 1)*6)/(20*6)
     end
 end
 
