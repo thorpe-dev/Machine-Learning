@@ -31,14 +31,14 @@ end
 
 smallNNsCM = zeros(6,6);
 for j = 1:10
-    
+
     bottomSplit = (j - 1) * length(x) * 0.1;
     topSplit = j * length(x) * 0.1;
     trainExamples = x(:, [1:bottomSplit, (topSplit + 1):end]);
     trainTargets = y(:, [1:bottomSplit, (topSplit + 1):end]);
     testExamples = x(:, (bottomSplit + 1):topSplit);
     testTargets = y(:, (bottomSplit + 1):topSplit);
-    thisFold = zeros(6, length(testTargets))
+    thisFold = zeros(6, length(testTargets));
     for i = 1:6
         [thisNetworkTrainTargets] = trainTargets(i,:);
         [thisNetwork] = networks{i+1};
@@ -47,9 +47,9 @@ for j = 1:10
         [out] = sim(thisNetwork, testExamples);
         thisFold(i,:) = round(out);
     end
-    thisFold = getOneEmotion(thisFold);
-    
-    
+    thisFold = getOneEmotion(thisFold)
+
+
 end
 
 end
@@ -66,6 +66,23 @@ end
 
 function [fold] = getOneEmotion(foldData)
 
-length(foldData)
+[m,n] = size(foldData);
+
+sums = sum(foldData);
+
+for i = 1:m
+
+  if sums(i) > 1
+
+    ind = randi(find(foldData(i,:) == 1));
+    f = zeros(1,6);
+    f(ind) = 1;
+    foldData(i,:) = f;
+  elseif sums(i) == 0
+    foldData(randi(i,[1,6])) = 1;
+  end
+end
+
+fold = foldData
 
 end
