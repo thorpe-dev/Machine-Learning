@@ -2,10 +2,10 @@
 %net = configure(net, x, y);
 
 % create a function handle
-handle = @(vary) test_error(vary);
-nvars = 1;
-LB = 1;
-UB = 25;
+handle = @(vary1,vary2) test_error(vary1,vary2);
+nvars = 2;
+LB = [0 1];
+UB = [1 30];
 
-ga_opts = gaoptimset('TolFun', 1e-8,'display','iter');
-[x_ga_opt, err_ga] = ga(handle,nvars,LB,UB);
+ga_opts = gaoptimset('TolFun', 1e-3,'display','iter');
+x_ga_opt = ga(handle,nvars,LB,UB);
