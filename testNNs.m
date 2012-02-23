@@ -24,7 +24,7 @@ for i = 1:10
     [thisNetwork] = configure(net, trainExamples, trainTargets);
     [thisNetwork] = train(thisNetwork, trainExamples, trainTargets);
     [out] = sim(thisNetwork, testExamples);
-    [out] = NNout2labels(round(out));
+    [out] = NNout2labels(findMax(out));
     [t] = NNout2labels(testTargets);
     largeCM = buildCM(out, t);
     [thisRecall, thisPrecision] = recall_precision(largeCM);
@@ -65,7 +65,7 @@ for j = 1:10
         [thisNetwork] = configure(thisNetwork, trainExamples, thisNetworkTrainTargets);
         [thisNetwork] = train(thisNetwork, trainExamples, thisNetworkTrainTargets);
         [out] = sim(thisNetwork, testExamples);
-        thisFold(i,:) = round(out);
+        thisFold(i,:) = out > 0.5;
     end
     thisFold = getOneEmotion(thisFold);
     [thisFoldEmotions] = NNout2labels(thisFold);
@@ -159,6 +159,31 @@ fl = [];
 
 for i = 1:6
     f1(i) = 2 * (recall(i) * precision(i))/ (recall(i) + precision(i));
+end
+
+end
+
+function[foldMaxes] = findMax(fold)
+
+[m,n] = size(fold);
+
+foldMaxes = zeros(m, n);
+
+for i = 1:n
+   
+    thisColumn = fold(:, i);
+    maxVal = thisColumn(1);
+    maxInd = 1;
+    
+    for j = 2:m
+        if(thisColumn(j) > maxVal)
+            maxVal = thisColumn(j);
+            maxInd = j;
+        end
+    end
+    
+    foldMaxes(maxInd, i) = 1;
+            
 end
 
 end
