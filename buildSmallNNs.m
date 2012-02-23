@@ -3,7 +3,7 @@ function[results] = buildSmallNNs(joke)
 [x,y] = loaddata('cleandata_students.txt');
 [x,y] = ANNdata(x,y);
 
-times = 10;
+times = 50;
 m = 5*(joke - 1) + 1;
 n = 5*joke;
 results = zeros(6,20);
