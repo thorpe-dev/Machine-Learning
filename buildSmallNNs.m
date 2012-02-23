@@ -1,17 +1,15 @@
-function[results] = buildSmallNNs(joke)
+function[results] = buildSmallNNs(emo, index)
 
 [x,y] = loaddata('cleandata_students.txt');
 [x,y] = ANNdata(x,y);
 
 times = 50;
-m = 5*(joke - 1) + 1;
-n = 5*joke;
-results = zeros(6,20);
-for numLayers = m:n
-    for i = 1:6
 
-        y2 = y(i,:);
-        perLayer = 7;
+results = zeros(8,45);
+for numLayers = 1:8
+    for perLayer = 1:45
+
+        y2 = y(emo,:);
         sizes = zeros(1,numLayers) + perLayer;
         [net] = feedforwardnet(sizes, 'traingd');
         [net] = configure(net, x, y2);
@@ -28,12 +26,12 @@ for numLayers = m:n
             [z] = p > 0.5;
             [u] = z - y2;
 
-            results(i,numLayers) = results(i,numLayers) + 1 - sum(abs(u))/100;
+            results(numLayers, perLayer) = results(numLayers, perLayer) + 1 - sum(abs(u))/100;
         end
-        results(i, numLayers) = results(i, numLayers)/times;
-        100*(i + (numLayers - 1)*6)/(5*6)
+        results(numLayers, perLayer) = results(numLayers, perLayer)/times;
+        (numLayers + (perLayer * 8))/(8*45) * 100
     end
 end
 
-save(strcat('testLayers',num2str(joke)),'results');
+save(strcat('testLayers',num2str(emo), '_', num2str(index)),'results');
 
