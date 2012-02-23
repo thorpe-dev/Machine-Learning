@@ -1,12 +1,11 @@
-[x,y] = loaddata('cleandata_students.txt');
-[x,y] = ANNdata(x,y);
-
-net = feedforwardnet(6);
-
-net = configure(net, inputs, targets);
+%net = feedforwardnet(6);
+%net = configure(net, x, y);
 
 % create a function handle
-handle = @(x) test_error(net, input,targets);
+handle = @(vary) test_error(vary);
+nvars = 1;
+LB = 1;
+UB = 25;
 
 ga_opts = gaoptimset('TolFun', 1e-8,'display','iter');
-[x_ga_opt, err_ga] = ga(handle,3*n+1, ga_opts);
+[x_ga_opt, err_ga] = ga(handle,nvars,LB,UB);
