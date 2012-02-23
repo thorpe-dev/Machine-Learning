@@ -1,3 +1,5 @@
+function[results] = buildSmallNNs(emo, index)
+
 [x,y] = loaddata('cleandata_students.txt');
 [x,y] = ANNdata(x,y);
 

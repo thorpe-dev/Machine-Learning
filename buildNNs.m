@@ -1,44 +1,41 @@
-function[results] = buildNNs()
+function [networks] = buildNNs(NNlayers, NNperLayer, NNLR, smallNNlayers, smallNNperLayer, smallNNLR)
 
-[x,y] = loaddata('cleandata_students.txt');
-[x,y] = ANNdata(x,y);
+networks = cell(0);
 
-% create 6-output-NN
-numLayers = 2;
-perLayer = 25;
-results = zeros(1,100);
+% Create the large Neural Network
+NNsizes = zeros(1, NNlayers) + NNperLayer;
+[net] = feedforwardnet(NNsizes, 'traingd');
 
-for i = 1:100
-    sizes = zeros(1,numLayers) + perLayer;
-    [net] = feedforwardnet(sizes, 'traingd');
-    [net] = configure(net, x, y);
+% Set the configuration of the large NN using arguments
+net.trainParam.epochs = 100;
+net.trainParam.show = NaN;
+net.trainParam.showWindow = 0;
+net.trainParam.showCommandLine = 0;
+net.trainParam.goal = 0;
+net.trainParam.lr = NNLR;
+
+networks{1} = net;
+
+% Create the smaller Neural Networks
+for i = 1:6
     
-    % would change params here
+    smallNNsizes = zeros(1, smallNNlayers) + smallNNperLayer;
+    [net] = feedforwardnet(smallNNsizes, 'traingd');
+    
+% Set the configuration of the smaller NNs using arguments
     net.trainParam.epochs = 100;
     net.trainParam.show = NaN;
     net.trainParam.showWindow = 0;
     net.trainParam.showCommandLine = 0;
     net.trainParam.goal = 0;
-    net.trainParam.lr = i/100;
+    net.trainParam.lr = smallNNLR;
     
-    times = 10;
-    
-    for j = 1:times
-        [net] = train(net, x, y);
-        
-        [p] = sim(net, x);
-        
-        [z] = round(p);
-        
-        [u] = z & y;
-        
-        [l] = sum(u);
-       
-        results(i) = results(i) + size(find(l==1), 2);
-        
-    end
-    
-    results(i) = results(i)/times;
-    i
+    networks{i+1} = net;
     
 end
+
+% Save the networks to a file
+save('networks.mat', 'networks');
+
+end
+
