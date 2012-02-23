@@ -4,12 +4,15 @@ function[results] = buildSmallNNs(emo, index)
 [x,y] = ANNdata(x,y);
 
 times = 50;
+m = 0.2*(joke - 1) + 0.01;
+n = 0.2*joke;
+results = zeros(6,100);
+for lr = m:0.01:n
+    for i = 1:6
 
-results = zeros(8,45);
-for numLayers = 1:8
-    for perLayer = 1:45
-
-        y2 = y(emo,:);
+        y2 = y(i,:);
+        perLayer = 7;
+        numLayers = 2;
         sizes = zeros(1,numLayers) + perLayer;
         [net] = feedforwardnet(sizes, 'traingd');
         [net] = configure(net, x, y2);
@@ -19,19 +22,18 @@ for numLayers = 1:8
         net.trainParam.showWindow = 0;
         net.trainParam.showCommandLine = 0;
         net.trainParam.goal = 0;
-        net.trainParam.lr = 0.4;
+        net.trainParam.lr = lr;
         for j = 1:times
             [net] = train(net, x, y2);
             [p] = sim(net, x);
             [z] = p > 0.5;
             [u] = z - y2;
 
-            results(numLayers, perLayer) = results(numLayers, perLayer) + 1 - sum(abs(u))/100;
+            results(i,round(lr*100)) = results(i,round(lr*100)) + 1 - sum(abs(u))/100;
         end
-        results(numLayers, perLayer) = results(numLayers, perLayer)/times;
-        (numLayers + (perLayer * 8))/(8*45) * 100
+        results(i, round(lr*100)) = results(i, round(lr*100))/times;
+        100*(i + (round(lr*100) - 1)*6)/(20*6)
     end
 end
 
-save(strcat('testLayers',num2str(emo), '_', num2str(index)),'results');
-
+save(strcat('testLR',num2str(joke)),'results');

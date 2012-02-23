@@ -1,4 +1,4 @@
-function[calc_mean_squared_error] = test_error(vary)
+function[calc_mean_squared_error] = test_error(vary1)
 
 [x,y] = loaddata('cleandata_students.txt');
 [x,y] = ANNdata(x,y);
@@ -14,8 +14,8 @@ net.trainParam.show = NaN;
 net.trainParam.showWindow = 0;
 net.trainParam.showCommandLine = 0;
 net.trainParam.goal = 0;
-
-net.trainParam.lr = abs(vary);
+abs(vary1)
+net.trainParam.lr = abs(vary1);
 
 [net] = train(net, x, y);
         
