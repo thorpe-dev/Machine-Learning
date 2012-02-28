@@ -3,7 +3,8 @@ function [newCase] = createCase(AUs, emotion)
 % return a case structure
 
 newCase.problem = AUs;
-newCase.solution = emotion;
-newCase.typicality = 1;
+t = zeros(1,6);
+t(emotion) = 1;
+newCase.typicality = t;
 
 end
