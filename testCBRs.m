@@ -16,9 +16,9 @@ for i = 1:10
     bottomSplit = (i - 1) * length(x) * 0.1;
     topSplit = i * length(x) * 0.1;
     trainExamples = x([1:bottomSplit, (topSplit + 1):end], :);
-    trainTargets = y([1:bottomSplit, (topSplit + 1):end], :);
+    trainTargets = y([1:bottomSplit, (topSplit + 1):end]);
     testExamples = x((bottomSplit + 1):topSplit, :);
-    testTargets = y((bottomSplit + 1):topSplit, :);
+    testTargets = y((bottomSplit + 1):topSplit);
 
     % Set up the CBR
     [cbr] = CBRinit(trainExamples, trainTargets);
