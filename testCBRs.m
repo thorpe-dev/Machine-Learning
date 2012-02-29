@@ -1,4 +1,7 @@
-function [] = testCBRs(method)
+function [] = testCBRs(method, comparison)
+
+global comp;
+comp = comparison;
 
 % Load the data in for testing
 [x,y] = loaddata('cleandata_students.txt');
@@ -57,7 +60,7 @@ stats{2} = recall;
 stats{3} = precision;
 stats{4} = f1;
 
-save(strcat('testCBRsMethod', num2str(method)), 'stats');
+save(strcat('testCBRsMethod', num2str(method), 'comparison', num2str(comparison)), 'stats');
 
 end
 

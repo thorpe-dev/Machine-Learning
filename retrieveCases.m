@@ -1,4 +1,4 @@
-function [cases] = retrieveCases(cbr, newcase);
+function [cases] = retrieveCases(cbr, newcase)
 
   cases = cell(0);
   if(size(cbr) > 0)
