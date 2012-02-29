@@ -1,7 +1,7 @@
-function [solvedcase] = reuse(case, newcase)
+function [solvedcase] = reuse(bestcase, newcase)
 % Attaches case's solution to newcase
 
-    t = case.typicality;
+    t = bestcase.typicality;
     maxes = find(t == max(t));
     emotion = maxes(randi(size(maxes)));
     
