@@ -1,5 +1,6 @@
 function [cases] = retrieveCases(cbr, newcase)
 
+
   cases = cell(0);
   if(size(cbr) > 0)
     cases{1} = cbr{1};
