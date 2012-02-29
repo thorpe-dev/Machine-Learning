@@ -10,8 +10,6 @@ function [y] = testCBR(CBR, x)
         [solvedcase] = reuse(bestcase, newcase);
         [CBR] = retain(CBR, solvedcase);
         
-        solvedcase
-        
         y(i) = find(solvedcase.typicality == 1);
         
     end

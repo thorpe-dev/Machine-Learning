@@ -1,4 +1,4 @@
-function [] = testCBRs()
+function [] = testCBRs(method)
 
 % Load the data in for testing
 [x,y] = loaddata('cleandata_students.txt');
@@ -25,10 +25,14 @@ for i = 1:10
     
 
     % Simulate using the test data
-    [y] = testCBR(cbr, testExamples);
+    if method == 1
+        [pred] = testCBR1(cbr, testExamples);
+    else
+        [pred] = testCBR2(cbr, testExamples);
+    end
 
     % Build the confusion matrix
-    thisCM = buildCM(y, testTargets);
+    thisCM = buildCM(pred, testTargets);
 
     % Calculate the recall and precision
     [thisRecall, thisPrecision] = recall_precision(thisCM);
@@ -53,6 +57,7 @@ stats{2} = recall;
 stats{3} = precision;
 stats{4} = f1;
 
+save(strcat('testCBRsMethod', num2str(method)), 'stats');
 
 end
 

@@ -16,7 +16,6 @@ function [c] = retrieve(cbr, newcase)
       typ_cases{1} = current;
     end
   end
-  typ_cases
   c = typ_cases{randi(size(typ_cases,2))};
 
 end
