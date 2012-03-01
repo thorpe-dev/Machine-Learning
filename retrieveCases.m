@@ -1,6 +1,21 @@
-function [cases] = retrieveCases(cbr, newcase)
+function [cases] = retrieveCases(cbr, newcase, k)
+
+  cases = Cell(0);
+  sortedCases = buildSortedCases(cbr, newcase);
+
+  for i = 1:k
+    cases{end + 1} = sortedCases.nodeCase;
+    sortedCases = sortedCases.next;
+  end
+  finalDistance = compareCases(cases{end + 1}, newcase);
+
+  while sortedCases.nodeCase.distance == finalDistance
+    cases{end + 1} = sortedCases.nodeCase;
+    sortedCase = sortedCase.next;
+  end
 
 
+%{
   cases = cell(0);
   if(size(cbr) > 0)
     cases{1} = cbr{1};
@@ -17,4 +32,5 @@ function [cases] = retrieveCases(cbr, newcase)
       end
     end
   end
+  %}
 end

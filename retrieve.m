@@ -1,6 +1,6 @@
-function [c] = retrieve(cbr, newcase)
+function [c] = retrieve(cbr, newcase, k)
 
-  cases = retrieveCases(cbr, newcase);
+  cases = retrieveCases(cbr, newcase, k);
 
   max_typ = sum(cases{1}.typicality);
   typ_cases = cell(0);

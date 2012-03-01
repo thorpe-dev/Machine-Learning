@@ -5,7 +5,7 @@ function [y] = testCBR2(cbr, x)
     for i = 1:size(x,1)
         AUs = find(x(i,:) == 1);
         [newcase] = createNovelCase(AUs);
-        [cases] = retrieveCases(cbr, newcase);
+        [cases] = retrieveCases(cbr, newcase, 1);
         typ = zeros(1,6);
 
         for c = 1:size(cases)
