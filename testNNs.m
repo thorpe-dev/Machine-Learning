@@ -48,11 +48,12 @@ for i = 1:10
     
 end
 
+[largeRecall, largePrecision] = recall_precision(largeNNCM);
 largeNNCM
 
 % Averages recall and precision, and calculates the f1 measure
-largeRecall = largeRecall/10
-largePrecision = largePrecision/10
+largeRecall %= largeRecall/10
+largePrecision %= largePrecision/10
 largeF1 = f1measure(largeRecall, largePrecision)
 
 % Store the statistics to the stats variable for saving to file
@@ -112,9 +113,11 @@ for j = 1:10
 end
 
 smallNNsCM
+
+[smallRecall, smallPrecision] = recall_precision(smallNNsCM);
 % Averages recall and precision, and calcaultes the f1 measure
-smallRecall = smallRecall/10
-smallPrecision = smallPrecision/10
+smallRecall %= smallRecall/10
+smallPrecision %= smallPrecision/10
 smallF1 = f1measure(smallRecall, smallPrecision)
 
 % Store the statistics to the stats variable for saving to file
@@ -124,7 +127,7 @@ stats{7} = smallPrecision;
 stats{8} = smallF1;
 
 % Saves these statistics to file
-save('NNstats.mat', 'stats');
+%save('NNstats.mat', 'stats');
 
 end
 
