@@ -15,6 +15,4 @@ function [measure] = compareCases(case1, case2, metric)
     otherwise
         measure = sum(abs(case2v - case1v));
     end
-            
 end
-

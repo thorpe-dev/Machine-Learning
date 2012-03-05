@@ -1,4 +1,4 @@
-function [y] = testCBR(CBR, x)
+function [y] = testCBR(CBR, x, k, metric)
 
     y = zeros(size(x,1), 1);
 
@@ -6,7 +6,7 @@ function [y] = testCBR(CBR, x)
 
         AUs = find(x(i,:) == 1);
         [newcase] = createNovelCase(AUs);
-        [bestcase] = retrieve(CBR, newcase, 1);
+        [bestcase] = retrieve(CBR, newcase, k ,metric);
         [solvedcase] = reuse(bestcase, newcase);
         [CBR] = retain(CBR, solvedcase);
         y(i) = find(solvedcase.typicality == 1);

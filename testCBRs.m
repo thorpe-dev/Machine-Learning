@@ -1,7 +1,5 @@
-function [] = testCBRs(method, comparison)
+function [avg] = testCBRs(method, metric, k)
 
-global comp;
-comp = comparison;
 
 % Load the data in for testing
 [x,y] = loaddata('cleandata_students.txt');
@@ -29,9 +27,9 @@ for i = 1:10
 
     % Simulate using the test data
     if method == 1
-        [pred] = testCBR1(cbr, testExamples);
+        [pred] = testCBR1(cbr, testExamples, k, metric);
     else
-        [pred] = testCBR2(cbr, testExamples);
+        [pred] = testCBR2(cbr, testExamples, k, metric);
     end
 
     % Build the confusion matrix
@@ -53,14 +51,14 @@ confusionMatrix
 recall = recall/10
 precision = precision/10
 f1 = f1measure(recall, precision)
-
+avg = sum(f1)/6;
 % Store the statistics to the stats variable for saving to file
 stats{1} = confusionMatrix;
 stats{2} = recall;
 stats{3} = precision;
 stats{4} = f1;
 
-save(strcat('testCBRsMethod', num2str(method), 'comparison', num2str(comparison)), 'stats');
+save(strcat('tests/testCBRsMethod', num2str(method), 'metric', num2str(metric), 'k', num2str(k)), 'stats');
 
 end
 
