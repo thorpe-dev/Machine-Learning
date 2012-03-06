@@ -7,12 +7,18 @@ function [measure] = compareCases(case1, case2, metric)
 
     case1v(case1.problem) = 1;
     case2v(case2.problem) = 1;
+
     switch metric
+
     case 1
-        measure = 2*sum(abs(case2v - case1v))^2 + ((sum(case1v + case2v)/2 - sum(case2v & case1v)))^2;
+        measure = ((sum(case1v + case2v)/2 - sum(case2v & case1v)));
+
     case 2
-        measure = 2*sum(abs(case2v - case1v))^2 - sum(case2v & case1v)^2 
+        measure = 2*sum(abs(case2v - case1v))^2 - sum(case2v & case1v)^2;
+
     otherwise
         measure = sum(abs(case2v - case1v));
+
     end
+
 end
