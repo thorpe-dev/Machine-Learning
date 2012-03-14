@@ -29,7 +29,7 @@ function [] = testCBRsNoisy(metric, k)
     stats{3} = precision;
     stats{4} = f1;
 
-    save(strcat('tests/testCBRsMetric', num2str(metric), 'k', num2str(k)), 'noisyCbrData');
+    save('tests/testCBRsNoisy', 'stats');
 
 end
 
