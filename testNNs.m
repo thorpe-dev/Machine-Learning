@@ -12,7 +12,7 @@ stats  = cell(0);
 largeNNCM = zeros(6,6);
 largeRecall = zeros(1,6);
 largePrecision = zeros(1,6);
-largeF1Folds = zeros(6, 10);
+largeF1Folds = zeros(10, 6);
 
 % Perform the 10-fold cross-validation for the larger NN
 for i = 1:10
