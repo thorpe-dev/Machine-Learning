@@ -40,10 +40,10 @@ pred = zeros(6, length(noisyY));
 % Configure and train the networks for this fold
 for i = 1:6
     % Strip out the expected values for this NN
-    [thisNetworkTrainTargets] = y(i,:);
+    [thisNetworkTrainTargets] = cleanY(i,:);
     [thisNetwork] = networks{i+1};
-    [thisNetwork] = configure(thisNetwork, x, thisNetworkTrainTargets);
-    [thisNetwork] = train(thisNetwork, x, thisNetworkTrainTargets);
+    [thisNetwork] = configure(thisNetwork, cleanX, thisNetworkTrainTargets);
+    [thisNetwork] = train(thisNetwork, cleanX, thisNetworkTrainTargets);
     [out] = sim(thisNetwork, noisyX);
     
     % Transform the data
