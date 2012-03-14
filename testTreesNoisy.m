@@ -8,9 +8,11 @@ function [] = testTreesNoisy()
 
     stats = cell(0);
 
-    [confMat] = buildConfusionMatrix(cleanx, cleany, noisyx, noisyy, (1:45));
+    [confMat] = buildConfusionMatrix(cleanx, cleany, noisyx, noisyy, (1:45))
     [recall, precision] = recall_precision(confMat);
-    f1 = f1measure(recall, precision);
+    recall
+    precision
+    f1 = f1measure(recall, precision)
 
     stats{1} = confMat;
     stats{2} = recall;
