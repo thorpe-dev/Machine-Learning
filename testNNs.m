@@ -38,6 +38,9 @@ function [largeF1Folds] = testNNs(networks)
     % Build the confusion matrix
     largeCM = buildCM(out, t);
 
+
+    [recallPerFold, precPerFold] = recall_precision(largeCM);
+    largeF1Folds(i, :) = f1measure(recallPerFold, precPerFold);
     % Add the recall and precision for averaging later
     largeNNCM = largeNNCM + largeCM;
   end
