@@ -15,5 +15,5 @@ function [] = allRunner()
     end
 
     save('trees.mat', 'forest')
-   
+
 end
