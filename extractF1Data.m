@@ -1,4 +1,4 @@
-function extractF1Data[f1s] = extractF1Data()
+function [f1s] = extractF1Data()
 
 % Extract the data for the ANOVA tests
 
