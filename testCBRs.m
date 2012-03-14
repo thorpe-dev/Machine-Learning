@@ -1,15 +1,13 @@
-function [avg] = testCBRs(metric, k)
+function [perFoldF1s] = testCBRs(metric, k)
 
 
     % Load the data in for testing
     [x,y] = loaddata('cleandata_students.txt');
 
-    % Set up variables to store the statistics for the larger NN
     stats  = cell(0);
     confusionMatrix = zeros(6,6);
-    perFold = zeros(1, 10);
+    perFoldF1s = zeros(10, 6);
 
-    % Perform the 10-fold cross-validation for the larger NN
     for i = 1:10
 
         % Split the data for the fold
@@ -32,11 +30,12 @@ function [avg] = testCBRs(metric, k)
         % Calculate the recall and precision
         [thisRecall, thisPrecision] = recall_precision(thisCM);
         thisF1 = f1measure(thisRecall, thisPrecision);
+        
         % Add the recall and precision for averaging later
-     %   recall = recall + thisRecall;
-     %   precision = precision + thisPrecision;
+        % recall = recall + thisRecall;
+        % precision = precision + thisPrecision;
         confusionMatrix = confusionMatrix + thisCM;
-%        perFold(i) = thisF1;
+        perFoldF1s(i, :) = thisF1;
     end
 
     confusionMatrix
@@ -48,7 +47,6 @@ function [avg] = testCBRs(metric, k)
     recall
     precision
     f1 = f1measure(recall, precision)
-    avg = sum(f1)/6;
     % Store the statistics to the stats variable for saving to file
     stats{1} = confusionMatrix;
     stats{2} = recall;
@@ -65,42 +63,6 @@ function [CM] = buildCM(predictions, testTargets)
 
     for i = 1:length(predictions)
         CM(predictions(i), testTargets(i)) = CM(predictions(i), testTargets(i)) + 1;
-    end
-
-end
-
-function[recall, precision] = recall_precision(confMat)
-
-% Calculates the recall and precision for the confusion matrix
-% for *one* fold
-
-    recall = zeros(1,6);
-    precision = zeros(1,6);
-
-    for i = 1:size(confMat, 2)
-
-        truePositives = confMat(i, i);
-        falseNegatives = sum(confMat(i, :)) - truePositives;
-        falsePositives = sum(confMat(:, i)) - truePositives;
-
-        recall(i) = (truePositives  + eps)/ (truePositives + falsePositives + eps);
-        precision(i) = (truePositives + eps) / (truePositives + falseNegatives ...
-            + eps);
-
-    end
-
-
-end
-
-function[f1] = f1measure(recall, precision)
-
-% Calculates the f1 measure using the recall and precision for all
-% folds
-
-fl = [];
-
-    for i = 1:6
-        f1(i) = 2 * (recall(i) * precision(i))/ (recall(i) + precision(i));
     end
 
 end

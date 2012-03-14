@@ -1,4 +1,4 @@
-function [] = testNNs(networks)
+function [largeF1Folds, smallF1Folds] = testNNs(networks)
 
 % Load the data in for testing
 [x,y] = loaddata('cleandata_students.txt');
@@ -12,6 +12,7 @@ stats  = cell(0);
 largeNNCM = zeros(6,6);
 largeRecall = zeros(1,6);
 largePrecision = zeros(1,6);
+largeF1Folds = zeros(6, 10);
 
 % Perform the 10-fold cross-validation for the larger NN
 for i = 1:10
@@ -40,6 +41,8 @@ for i = 1:10
 
     % Calculate the recall and precision
     [thisRecall, thisPrecision] = recall_precision(largeCM);
+    thisF1 = f1measure(thisRecall, thisPrecision);
+    largeF1Folds(i,:) = thisF1;
 
     % Add the recall and precision for averaging later
     largeRecall = largeRecall + thisRecall;
@@ -66,6 +69,7 @@ stats{4} = largeF1;
 smallNNsCM = zeros(6,6);
 smallRecall = zeros(1,6);
 smallPrecision = zeros(1,6);
+smallF1Folds = zeros(10,6);
 
 % Perform the 10-fold cross-validation on the smaller NNs
 for j = 1:10
@@ -104,6 +108,8 @@ for j = 1:10
 
     % Calculate the recall and precision
     [thisRecall, thisPrecision] = recall_precision(smallCM);
+    thisF1 = f1measure(thisRecall, thisPrecision);
+    smallF1Folds(i,:) = thisF1;
 
     % Add the recall and precision for averaging later
     smallRecall = smallRecall + thisRecall;
