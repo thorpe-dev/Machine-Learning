@@ -1,61 +1,77 @@
 function [] = testNNsNoisy(networks)
 
 % Load the data in for testing
-[x,y] = loaddata('cleandata_students.txt');
+[cleanX,cleanY] = loaddata('cleandata_students.txt');
 [noisyX,noisyY] = loaddata('noisydata_students.txt');
+[cleanX,cleanY] = ANNdata(cleanX,cleanY);
 [noisyX,noisyY] = ANNdata(noisyX,noisyY);
-[x,y] = ANNdata(x,y);
 
-% Cross validate the larger NN
 [net] = networks{1};
 
 % Set up variables to store the statistics for the larger NN
 stats  = cell(0);
-largeNNCM = zeros(6,6);
+largeCM = zeros(6,6);
 
-    % Configure and train
-    [thisNetwork] = configure(net, x, y);
-    [thisNetwork] = train(thisNetwork, x, y);
+% Configure and train the larger NN
+[thisNetwork] = configure(net, cleanX, cleanY);
+[thisNetwork] = train(thisNetwork, cleanX, cleanY);
 
-    % Simulate using the test data
+% Simulate using the noisy data
+[out] = sim(thisNetwork, noisyX);
+
+% Transform the output
+[out] = NNout2labels(findMax(out));
+[t] = NNout2labels(noisyY);
+
+% Build the confusion matrix
+largeCM = buildCM(out, t)
+
+% Calculate the recall and precision
+[largeRecall, largePrecision] = recall_precision(largeCM);
+largeRecall
+largePrecision
+largeF1 = f1measure(largeRecall, largePrecision)
+
+% SMALL NNS
+
+% Initialise a matrix to store the output of each NN
+pred = zeros(6, length(noisyY));
+
+% Configure and train the networks for this fold
+for i = 1:6
+    % Strip out the expected values for this NN
+    [thisNetworkTrainTargets] = y(i,:);
+    [thisNetwork] = networks{i+1};
+    [thisNetwork] = configure(thisNetwork, x, thisNetworkTrainTargets);
+    [thisNetwork] = train(thisNetwork, x, thisNetworkTrainTargets);
     [out] = sim(thisNetwork, noisyX);
+    
+    % Transform the data
+    pred(i,:) = out > 0.5;
+end
 
-    % Transform the output
-    [out] = NNout2labels(findMax(out));
-    [t] = NNout2labels(noisyY);
+% Ensure only one emotion is selected for each example
+pred = getOneEmotion(pred);
+[thisFoldEmotions] = NNout2labels(pred);
+[t] = NNout2labels(noisyY);
 
-    % Build the confusion matrix
-    largeCM = buildCM(out, t)
+% Build the confusion matrix
+smallCM = buildCM(thisFoldEmotions, t)
 
-    % Calculate the recall and precision
+[smallRecall, smallPrecision] = recall_precision(smallCM);
+smallRecall
+smallPrecision
+smallF1 = f1measure(smallRecall, smallPrecision)
 
-    % Add the recall and precision for averaging later
+stats{1} = largeCM;
+stats{2} = largeRecall;
+stats{3} = largePrecision;
+stats{4} = largeF1;
+stats{5} = smallCM;
+stats{6} = smallRecall;
+stats{7} = smallPrecision;
+stats{8} = smallF1;
 
-
-
-    % Initialise a matrix to store the output of each NN
-    thisFold = zeros(6, length(noisyY));
-
-    % Configure and train the networks for this fold
-    for i = 1:6
-        % Strip out the expected values for this NN
-        [thisNetworkTrainTargets] = y(i,:);
-        [thisNetwork] = networks{i+1};
-        [thisNetwork] = configure(thisNetwork, x, thisNetworkTrainTargets);
-        [thisNetwork] = train(thisNetwork, x, thisNetworkTrainTargets);
-        [out] = sim(thisNetwork, noisyX);
-
-        % Transform the data
-        thisFold(i,:) = out > 0.5;
-    end
-
-    % Ensure only one emotion is selected for each example
-    thisFold = getOneEmotion(thisFold);
-    [thisFoldEmotions] = NNout2labels(thisFold);
-    [t] = NNout2labels(noisyY);
-
-    % Build the confusion matrix
-    smallCM = buildCM(thisFoldEmotions, t)
 end
 
 % Build a confusion matrix given the predictions and correct classifications
@@ -102,7 +118,7 @@ function[foldMaxes] = findMax(fold)
 foldMaxes = zeros(m, n);
 
 for i = 1:n
-   
+    
     thisColumn = fold(:, i);
     maxVal = thisColumn(1);
     maxInd = 1;
@@ -115,7 +131,7 @@ for i = 1:n
     end
     
     foldMaxes(maxInd, i) = 1;
-            
+    
 end
 
 end
