@@ -16,7 +16,7 @@ function [] = testCBRsNoisy(metric, k)
     [pred] = testCBR(cbr, tx, k, metric);
 
     % Build the confusion matrix
-    confusionMatrix = buildCM(pred, ty);    
+    confusionMatrix = buildCM(pred, ty)
 
     % Averages recall and precision, and calculates the f1 measure
     [recall, precision] = recall_precision(confusionMatrix);

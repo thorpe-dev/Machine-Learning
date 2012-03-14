@@ -7,8 +7,7 @@ function [avg] = testCBRs(metric, k)
     % Set up variables to store the statistics for the larger NN
     stats  = cell(0);
     confusionMatrix = zeros(6,6);
-    recall = zeros(1,6);
-    precision = zeros(1,6);
+    perFold = zeros(1, 10);
 
     % Perform the 10-fold cross-validation for the larger NN
     for i = 1:10
@@ -31,13 +30,13 @@ function [avg] = testCBRs(metric, k)
         thisCM = buildCM(pred, testTargets);
 
         % Calculate the recall and precision
-    %    [thisRecall, thisPrecision] = recall_precision(thisCM);
-
+        [thisRecall, thisPrecision] = recall_precision(thisCM);
+        thisF1 = f1measure(thisRecall, thisPrecision);
         % Add the recall and precision for averaging later
      %   recall = recall + thisRecall;
      %   precision = precision + thisPrecision;
         confusionMatrix = confusionMatrix + thisCM;
-
+%        perFold(i) = thisF1;
     end
 
     confusionMatrix
