@@ -1,4 +1,4 @@
-function [] = runner()
+function [F1folds] = runner()
 
     % Builds the confusion matrix for the 10-fold cross-validation
 
