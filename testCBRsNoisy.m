@@ -23,6 +23,9 @@ function [] = testCBRsNoisy(metric, k)
     recall
     precision
     f1 = f1measure(recall, precision)
+    
+    avgf1 = sum(f1)/6
+    
     % Store the statistics to the stats variable for saving to file
     stats{1} = confusionMatrix;
     stats{2} = recall;

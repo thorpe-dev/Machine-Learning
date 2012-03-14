@@ -13,6 +13,8 @@ function [] = testTreesNoisy()
     recall
     precision
     f1 = f1measure(recall, precision)
+    
+    avgf1 = sum(f1)/6
 
     stats{1} = confMat;
     stats{2} = recall;

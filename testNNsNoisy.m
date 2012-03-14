@@ -32,6 +32,8 @@ largeRecall
 largePrecision
 largeF1 = f1measure(largeRecall, largePrecision)
 
+largeF1avg = sum(largeF1)/6
+
 % SMALL NNS
 
 % Initialise a matrix to store the output of each NN
@@ -62,6 +64,8 @@ smallCM = buildCM(thisFoldEmotions, t)
 smallRecall
 smallPrecision
 smallF1 = f1measure(smallRecall, smallPrecision)
+
+smallF1avg = sum(smallF1)/6
 
 stats{1} = largeCM;
 stats{2} = largeRecall;
