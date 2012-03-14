@@ -39,8 +39,6 @@ function [largeF1Folds] = testNNs(networks)
     largeCM = buildCM(out, t);
 
     % Add the recall and precision for averaging later
-    largeRecall = largeRecall + thisRecall;
-    largePrecision = largePrecision + thisPrecision;
     largeNNCM = largeNNCM + largeCM;
   end
 
