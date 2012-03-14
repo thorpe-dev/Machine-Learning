@@ -12,8 +12,8 @@ for i = 1:size(confMat, 2)
     falseNegatives = sum(confMat(i, :)) - truePositives;
     falsePositives = sum(confMat(:, i)) - truePositives;
     
-    recall(i) = truePositives / (truePositives + falsePositives + eps);
-    precision(i) = truePositives / (truePositives + falseNegatives ...
+    recall(i) = (truePositives + eps) / (truePositives + falsePositives + eps);
+    precision(i) = (truePositives + eps) / (truePositives + falseNegatives ...
         + eps);
     
 end
