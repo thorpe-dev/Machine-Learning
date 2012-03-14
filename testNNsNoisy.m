@@ -76,6 +76,8 @@ stats{6} = smallRecall;
 stats{7} = smallPrecision;
 stats{8} = smallF1;
 
+save('tests/NNstatsNoisy.mat', 'stats');
+
 end
 
 % Build a confusion matrix given the predictions and correct classifications
