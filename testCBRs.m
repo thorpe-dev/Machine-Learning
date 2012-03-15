@@ -2,7 +2,7 @@ function [perFoldF1s] = testCBRs(metric, k)
 
 
     % Load the data in for testing
-    [x,y] = loaddata('cleandata_students.txt');
+    [x,y] = loaddata('noisydata_students.txt');
 
     stats  = cell(0);
     confusionMatrix = zeros(6,6);

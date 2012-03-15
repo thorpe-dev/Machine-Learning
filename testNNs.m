@@ -1,7 +1,7 @@
 function [largeF1Folds] = testNNs(networks)
 
   % Load the data in for testing
-  [x,y] = loaddata('cleandata_students.txt');
+  [x,y] = loaddata('noisydata_students.txt');
   [x,y] = ANNdata(x,y);
 
   % Cross validate the larger NN
