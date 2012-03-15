@@ -1,6 +1,6 @@
 function [] = runMCTests()
 
-load('data/anovaStats.mat');
+load('data/anovaStatsNoisy.mat');
 
 mcData = cell(1,6);
 
@@ -10,7 +10,7 @@ for i = 1:6
     
 end
 
-save('data/mcData.mat', 'mcData');
+save('data/mcDataNoisy.mat', 'mcData');
 
 end
 

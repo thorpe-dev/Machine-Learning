@@ -39,8 +39,8 @@ function [remainder] = Remainder(attribute, targets)
     negPos = sum(~attribute & targets);
     negNeg = sum(~attribute & ~targets);
 
-    positivecount = posPos + posNeg;
-    negativecount = negPos + negNeg;
+    positivecount = posPos + posNeg + eps;
+    negativecount = negPos + negNeg + eps;
 
     positive = positivecount / length(targets) * ...
         I(posPos / positivecount, posNeg / positivecount);
@@ -57,5 +57,5 @@ function [gain] = Gain(attribute, targets)
 
     positive = sum(targets) / length(targets);
     negative = 1.0 - positive;
-    gain = I(positive, negative) - Remainder(attribute, targets);
+    gain = I(positive, negative) - Remainder(attribute, targets) + eps;
 end

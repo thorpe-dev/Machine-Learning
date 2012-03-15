@@ -1,23 +1,29 @@
 function [tree] = decisionTreeLearning(examples, attributes, targets)
 
-    % implements the algorithm from page 22 of the CBC manual
+% implements the algorithm from page 22 of the CBC manual
+
+if same_label(targets)
+    tree.op = [];
+    tree.kids = cell(0);
+    tree.class = targets(1,1);
+elseif isequal(attributes, [])
+    tree.op = [];
+    tree.kids = cell(0);
+    tree.class = majorityValue(targets);
+else
+    attributesLeft = [];
+    for a = attributes
+        if a ~= 0
+            attributesLeft(end + 1) = a;
+        end
+    end
     
-    if same_label(targets)
-        tree.op = [];
-        tree.kids = cell(0);
-        tree.class = targets(1,1);
-    elseif isequal(attributes, [])
+    if isequal(attributesLeft, [])
         tree.op = [];
         tree.kids = cell(0);
         tree.class = majorityValue(targets);
+        return
     else
-        attributesLeft = [];
-        for a = attributes
-            if a ~= 0
-                attributesLeft(end + 1) = a;
-            end
-        end
-
         bestAttr = chooseAttribute(examples, attributesLeft, targets);
         tree.op = bestAttr;
         tree.kids = cell(0);
@@ -34,7 +40,7 @@ function [tree] = decisionTreeLearning(examples, attributes, targets)
                     targets(k, :) = [];
                 end
             end
-
+            
             if isequal(examples_i, [])
                 tree.op = [];
                 tree.kids = cell(0);
@@ -42,7 +48,7 @@ function [tree] = decisionTreeLearning(examples, attributes, targets)
                 return
             else
                 newAttr = attributes;
-                newAttr(bestAttr) = 0; 
+                newAttr(bestAttr) = 0;
                 tree.kids{i + 1} = ...
                     decisionTreeLearning(examples_i, newAttr, targets_i);
                 tree.class = [];
@@ -50,10 +56,11 @@ function [tree] = decisionTreeLearning(examples, attributes, targets)
         end
     end
 end
+end
 
 
 function [r] = same_label(targets)
-  % Current implementation only works when targets are either 0 or 1
-  % If this changes then the implementation will have to change
-  r = ((length(targets)*targets(1)) == sum(targets));
+% Current implementation only works when targets are either 0 or 1
+% If this changes then the implementation will have to change
+r = ((length(targets)*targets(1)) == sum(targets));
 end
